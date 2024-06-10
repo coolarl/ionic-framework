@@ -1,0 +1,31 @@
+<ion-content>
+  <h3 class="title" *ngIf="(cartItem$|async).length">
+    {{(cartItem$|async).length}} towards at cart>
+  </h3>
+
+  <ion-list lines="none">
+    <ion-item-sliding *ngFor="let item of cartItem$|async">
+      <ion-item>
+        <app-cart-item
+          [item]="item"
+          (increase)="onIncrease(item)"
+          (decrease)="onDecrease(item)"
+        ></app-cart-item>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="removeFromCart(item)">
+          <ion-icon name="trash-outline" size="large" color="danger"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty-cart" *ngIf="!(cartItem$|async).length">
+    <ion-icon name="cart"></ion-icon>
+    <p>Your cart Is Empty</p>
+  </div>
+
+  <app-button *ngIf="(cartItem$|async).length">
+    total: <span><sup>Rp</sup>{{totalAmount$|async|number:'1.2'}}</span>
+  </app-button>
+</ion-content>
